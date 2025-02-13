@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Escola;
+use App\Models\Municipio;
 use Illuminate\Http\Request;
 
 class ControllerSchool extends Controller
@@ -13,7 +14,12 @@ class ControllerSchool extends Controller
             if(request('search')){
                 $query->where('escola', 'like', '%' . request('search') . '%');
             }
-        })->paginate(15);
+        })->paginate(15)->through(function ($escola) {
+            $municipio_proximo = Municipio::query()->where('nome','like','%'. $escola->municipio.'%')->first();
+            $escola->setAttribute('municipio_proximo',!!$municipio_proximo);
+            return $escola;
+        });
+
         return view('dashboard',compact('schools'));
     }
 }
