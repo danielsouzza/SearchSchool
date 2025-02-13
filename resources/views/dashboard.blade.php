@@ -176,11 +176,26 @@
         setModalText('modalCity', `${school.municipio} - ${school.uf}`);
         setModalText('modalLocation', school.localizacao);
         setModalText('modalModality', school.etapas_modalidade_ensino_oferecidas);
-        setModalText('modalBonus', school.municipio_proximo ? 'Elegível' : 'Não Elegível');
+
+        // Configuração especial para Bonificação
+        const bonusElement = document.getElementById('modalBonus');
+        const isElegivel = school.municipio_proximo;
+        bonusElement.textContent = isElegivel ? "Elegível" : "Não Elegível";
+
+        // Resetar classes
+        bonusElement.className = '';
+
+        // Aplicar classes condicionais
+        if(isElegivel) {
+            bonusElement.classList.add('text-green-600', 'font-bold');
+        } else {
+            bonusElement.classList.add('text-red-600', 'font-bold');
+        }
 
         document.getElementById('schoolModal').classList.remove('hidden');
     }
 
+    // Restante do código permanece igual
     function closeModal() {
         document.getElementById('schoolModal').classList.add('hidden');
     }
