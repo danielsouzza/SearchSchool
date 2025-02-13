@@ -26,14 +26,15 @@ class ControllerSchool extends Controller
                 ->through(function ($escola) {
                     $municipio_proximo = Municipio::query()
                         ->where('nome', 'like', '%' . $escola->municipio . '%')
-                        ->first();
-
-                    $escola->setAttribute('municipio_proximo', !!$municipio_proximo);
+                        ->exists();
+                    $is_medium = str_contains($escola->etapas_modalidade_ensino_oferecidas, 'Ensino Médio');
+                    $escola->setAttribute('municipio_proximo',( $municipio_proximo && $is_medium));
                     return $escola;
                 });
         } else {
             $schools = collect();
         }
+
 
         return view('dashboard',compact('schools'));
     }

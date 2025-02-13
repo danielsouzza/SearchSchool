@@ -121,9 +121,9 @@
 </div>
 
 <!-- Modal -->
-<div id="schoolModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+<div id="schoolModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto ">
     <div class="relative min-h-screen flex items-center justify-center p-2">
-        <div class="bg-white rounded-lg shadow-xl w-full mx-2">
+        <div class="bg-white rounded-lg shadow-xl w-full mx-2 max-w-3xl">
             <div class="p-4">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="text-base font-bold text-gray-800" id="modalSchoolName"></h3>
