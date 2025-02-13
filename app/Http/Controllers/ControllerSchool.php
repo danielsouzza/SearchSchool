@@ -12,9 +12,10 @@ class ControllerSchool extends Controller
     {
         $schools = Escola::query()->where(function ($query) {
             if(request('search')){
-                $query->where('escola', 'like', '%' . request('search') . '%');
+                $query->where('escola', 'like', '%' . request('search') . '%')
+                    ->orWhere('municipio', 'like', '%' . request('search') . '%');
             }
-        })->paginate(15)->through(function ($escola) {
+        })->orderBy('escola')->paginate(15)->through(function ($escola) {
             $municipio_proximo = Municipio::query()->where('nome','like','%'. $escola->municipio.'%')->first();
             $escola->setAttribute('municipio_proximo',!!$municipio_proximo);
             return $escola;
