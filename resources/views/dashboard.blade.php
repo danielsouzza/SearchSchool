@@ -61,7 +61,7 @@
                     <thead class="bg-gray-50">
                     <tr>
                         <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Escola</th>
-                        <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Código</th>
+                        <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Código INEP</th>
                         <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Município</th>
                         <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Bonificação</th>
                     </tr>
