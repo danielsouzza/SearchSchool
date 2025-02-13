@@ -21,23 +21,23 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <!-- Filtros -->
     <div class="mb-6">
-        <form method="GET" action="{{ route('dashboard') }}" class="w-full mx-auto">
+        <form method="GET" action="{{ route('home') }}" class="w-full mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="relative">
                     <input
                         type="search"
-                        name="search"
+                        name="search-school"
                         placeholder="Pesquisar escola..."
-                        value="{{ request('search') }}"
+                        value="{{ request('search-school') }}"
                         class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm shadow-sm"
                     >
                 </div>
                 <div class="relative">
                     <input
                         type="search"
-                        name="municipio"
+                        name="search-municipio"
                         placeholder="Filtrar por município..."
-                        value="{{ request('municipio') }}"
+                        value="{{ request('search-municipio') }}"
                         class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm shadow-sm"
                     >
                 </div>
@@ -53,7 +53,7 @@
         <div class="p-4 sm:p-6">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-2 sm:space-y-0">
                 <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Lista de Escolas</h2>
-                <span class="text-sm text-gray-500">Total: {{ $schools->total() }} escolas</span>
+                <span class="text-sm text-gray-500">Total: {{ count($schools) == 0 ? 0 : $schools->total()}} escolas</span>
             </div>
 
             <div class="overflow-x-auto pb-2">
@@ -63,7 +63,7 @@
                         <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Escola</th>
                         <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Código</th>
                         <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Município</th>
-                        <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Bonificação</th>
                     </tr>
                     </thead>
 
@@ -75,7 +75,7 @@
                         >
                             <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm font-medium text-gray-900">
                                 <div class="flex flex-col">
-                                    <span>{{ Str::limit($escola->escola, 25) }}</span>
+                                    <span>{{ $escola->escola }}</span>
                                     <span class="text-xs text-gray-500 sm:hidden mt-1">Código: {{ $escola->codigo_inep }}</span>
                                 </div>
                             </td>
@@ -114,13 +114,13 @@
 
             <!-- Paginação -->
             <div class="mt-4 px-2 sm:px-0">
-                {{ $schools->appends(request()->query())->links() }}
+                {{ count($schools) == 0 ? '' : $schools->appends(request()->query())->links() }}
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal Mobile Otimizado -->
+<!-- Modal -->
 <div id="schoolModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
     <div class="relative min-h-screen flex items-center justify-center p-2">
         <div class="bg-white rounded-lg shadow-xl w-full mx-2">
@@ -151,6 +151,9 @@
                         <p class="font-medium">Localização:</p>
                         <p id="modalLocation"></p>
 
+                        <p class="font-medium">Etapas/Modalidades:</p>
+                        <p id="modalModality"></p>
+
                         <p class="font-medium">Bonificação:</p>
                         <p id="modalBonus"></p>
                     </div>
@@ -162,7 +165,6 @@
 
 <script>
     function showSchoolDetails(school) {
-        // Configuração dos dados do modal
         const setModalText = (id, text) => {
             document.getElementById(id).textContent = text || 'Não informado';
         };
@@ -173,9 +175,9 @@
         setModalText('modalPhone', school.telefone);
         setModalText('modalCity', `${school.municipio} - ${school.uf}`);
         setModalText('modalLocation', school.localizacao);
+        setModalText('modalModality', school.etapas_modalidade_ensino_oferecidas);
         setModalText('modalBonus', school.municipio_proximo ? 'Elegível' : 'Não Elegível');
 
-        // Exibir modal
         document.getElementById('schoolModal').classList.remove('hidden');
     }
 
@@ -183,7 +185,6 @@
         document.getElementById('schoolModal').classList.add('hidden');
     }
 
-    // Fechar modal ao clicar fora
     window.onclick = function(event) {
         const modal = document.getElementById('schoolModal');
         if (event.target === modal) {
