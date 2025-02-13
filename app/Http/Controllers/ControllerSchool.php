@@ -10,19 +10,30 @@ class ControllerSchool extends Controller
 {
     function index(Request $req)
     {
-        $schools = Escola::query()->where(function ($query) {
-            if(request('search-school')){
-                $query->where('escola', 'like', '%' . request('search') . '%');
-            }
-            if(request('search-municipio')){
-                $query->where('municipio', 'like', '%' . request('search') . '%');
-            }
+        $searchSchool = request('search-school');
+        $searchMunicipio = request('search-municipio');
 
-        })->orderBy('escola')->paginate(15)->through(function ($escola) {
-            $municipio_proximo = Municipio::query()->where('nome','like','%'. $escola->municipio.'%')->first();
-            $escola->setAttribute('municipio_proximo',!!$municipio_proximo);
-            return $escola;
-        });
+        if ($searchSchool || $searchMunicipio) {
+            $schools = Escola::query()
+                ->when($searchSchool, function ($query, $searchSchool) {
+                    $query->where('escola', 'like', '%' . $searchSchool . '%');
+                })
+                ->when($searchMunicipio, function ($query, $searchMunicipio) {
+                    $query->where('municipio', 'like', '%' . $searchMunicipio . '%');
+                })
+                ->orderBy('escola')
+                ->paginate(15)
+                ->through(function ($escola) {
+                    $municipio_proximo = Municipio::query()
+                        ->where('nome', 'like', '%' . $escola->municipio . '%')
+                        ->first();
+
+                    $escola->setAttribute('municipio_proximo', !!$municipio_proximo);
+                    return $escola;
+                });
+        } else {
+            $schools = collect();
+        }
 
         return view('dashboard',compact('schools'));
     }
