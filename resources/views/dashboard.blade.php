@@ -39,22 +39,10 @@
 
 <div class="max-w-7xl mx-auto px-4 py-6">
     <div class="flex gap-6">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-white rounded-lg shadow p-4">
-            <nav class="space-y-1">
-                <a href="#" class="flex items-center p-2 text-gray-900 bg-indigo-50 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                    Dashboard
-                </a>
-            </nav>
-        </aside>
-
         <!-- Conteúdo Principal -->
         <main class="flex-1">
             <div class="bg-white rounded-lg shadow p-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Últimos Registros</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Escolas</h2>
 
                 <!-- Tabela -->
                 <div class="overflow-x-auto">
