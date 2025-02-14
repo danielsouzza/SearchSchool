@@ -74,7 +74,7 @@
                             onclick="showSchoolDetails({{ json_encode($escola) }})"
                         >
                             <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm text-gray-700">
-                                <div class="flex items-center gap-1">
+                                <div class="flex justify-center items-center gap-1">
                                     @if($escola->municipio_proximo)
                                         <div class="flex items-center text-green-600">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
