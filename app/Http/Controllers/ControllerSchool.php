@@ -26,7 +26,6 @@ class ControllerSchool extends Controller
                 ->paginate(15);
         }
 
-
         return view('dashboard',compact('schools'));
     }
 }

@@ -75,7 +75,7 @@
                         >
                             <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm text-gray-700">
                                 <div class="flex justify-center items-center gap-1">
-                                    @if($escola->municipio_proximo)
+                                    @if($escola->has_bonus)
                                         <div class="flex items-center text-green-600">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -152,6 +152,12 @@
                         <p class="font-medium">Etapas/Modalidades:</p>
                         <p id="modalModality"></p>
 
+                        <p class="font-medium">Área de Abrangência:</p>
+                        <p id="modalAreaAbrangencia"></p>
+
+                        <p class="font-medium">Oferta Ensino Médio:</p>
+                        <p id="modalEnsinoMedio"></p>
+
                         <p class="font-medium">Bonificação:</p>
                         <p id="modalBonus"></p>
                     </div>
@@ -175,16 +181,44 @@
         setModalText('modalLocation', school.localizacao);
         setModalText('modalModality', school.etapas_modalidade_ensino_oferecidas);
 
+        // Configuração especial para Área Abrangência
+        const AreaAbrangenciaElement = document.getElementById('modalAreaAbrangencia');
+        AreaAbrangenciaElement.textContent = school.is_area_abrangencia ? "Sim" : "Não";
+
+        // Resetar classes
+        AreaAbrangenciaElement.className = '';
+
+        // Aplicar classes condicionais
+        if(school.is_area_abrangencia) {
+            AreaAbrangenciaElement.classList.add('text-green-600', 'font-bold');
+        } else {
+            AreaAbrangenciaElement.classList.add('text-red-600', 'font-bold');
+        }
+
+        // Configuração especial para Ensino Médio
+        const EnsinoMedioElement = document.getElementById('modalEnsinoMedio');
+        EnsinoMedioElement.textContent = school.is_ensino_medio ? "Sim" : "Não";
+
+        // Resetar classes
+        EnsinoMedioElement.className = '';
+
+        // Aplicar classes condicionais
+        if(school.is_ensino_medio) {
+            EnsinoMedioElement.classList.add('text-green-600', 'font-bold');
+        } else {
+            EnsinoMedioElement.classList.add('text-red-600', 'font-bold');
+        }
+
+
         // Configuração especial para Bonificação
         const bonusElement = document.getElementById('modalBonus');
-        const isElegivel = school.municipio_proximo;
-        bonusElement.textContent = isElegivel ? "Elegível" : "Não Elegível";
+        bonusElement.textContent = school.has_bonus ? "Elegível" : "Não Elegível";
 
         // Resetar classes
         bonusElement.className = '';
 
         // Aplicar classes condicionais
-        if(isElegivel) {
+        if(school.has_bonus) {
             bonusElement.classList.add('text-green-600', 'font-bold');
         } else {
             bonusElement.classList.add('text-red-600', 'font-bold');
