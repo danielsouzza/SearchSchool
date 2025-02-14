@@ -60,10 +60,10 @@
                 <table class="w-full min-w-[500px] sm:min-w-0">
                     <thead class="bg-gray-50">
                     <tr>
+                        <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Bonus</th>
                         <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Escola</th>
                         <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Código INEP</th>
                         <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Município</th>
-                        <th class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase">Bonificação</th>
                     </tr>
                     </thead>
 
@@ -73,14 +73,6 @@
                             class="hover:bg-gray-50 cursor-pointer"
                             onclick="showSchoolDetails({{ json_encode($escola) }})"
                         >
-                            <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm font-medium text-gray-900">
-                                <div class="flex flex-col">
-                                    <span>{{ $escola->escola }}</span>
-                                    <span class="text-xs text-gray-500 sm:hidden mt-1">Código: {{ $escola->codigo_inep }}</span>
-                                </div>
-                            </td>
-                            <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm text-gray-700 hidden sm:table-cell">{{ $escola->codigo_inep }}</td>
-                            <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm text-gray-700">{{ $escola->municipio }} - {{ $escola->uf }}</td>
                             <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm text-gray-700">
                                 <div class="flex items-center gap-1">
                                     @if($escola->municipio_proximo)
@@ -88,18 +80,24 @@
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                             </svg>
-                                            <span class="ml-1">Elegível</span>
                                         </div>
                                     @else
                                         <div class="flex items-center text-red-600">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                             </svg>
-                                            <span class="ml-1">Não Elegível</span>
                                         </div>
                                     @endif
                                 </div>
                             </td>
+                            <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm font-medium text-gray-900">
+                                <div class="flex flex-col">
+                                    <span>{{ $escola->escola }}</span>
+                                    <span class="text-xs text-gray-500 sm:hidden mt-1">Código: {{ $escola->codigo_inep }} | {{ $escola->municipio }} - {{ $escola->uf }}</span>
+                                </div>
+                            </td>
+                            <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm text-gray-700 hidden sm:table-cell">{{ $escola->codigo_inep }}</td>
+                            <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm text-gray-700">{{ $escola->municipio }} - {{ $escola->uf }}</td>
                         </tr>
                     @empty
                         <tr>
