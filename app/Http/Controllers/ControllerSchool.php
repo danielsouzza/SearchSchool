@@ -12,6 +12,7 @@ class ControllerSchool extends Controller
     {
         $searchSchool = request('search-school');
         $searchMunicipio = request('search-municipio');
+        $schools = collect();
 
         if ($searchSchool || $searchMunicipio) {
             $schools = Escola::query()
@@ -22,17 +23,7 @@ class ControllerSchool extends Controller
                     $query->where('municipio', 'like', '%' . $searchMunicipio . '%');
                 })
                 ->orderBy('escola')
-                ->paginate(15)
-                ->through(function ($escola) {
-                    $municipio_proximo = Municipio::query()
-                        ->where('nome', 'like', '%' . $escola->municipio . '%')
-                        ->exists();
-                    $is_medium = str_contains($escola->etapas_modalidade_ensino_oferecidas, 'Ensino Médio');
-                    $escola->setAttribute('municipio_proximo',( $municipio_proximo && $is_medium));
-                    return $escola;
-                });
-        } else {
-            $schools = collect();
+                ->paginate(15);
         }
 
 
