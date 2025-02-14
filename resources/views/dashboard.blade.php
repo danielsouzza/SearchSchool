@@ -69,22 +69,19 @@
 
                     <tbody class="divide-y divide-gray-200">
                     @forelse($schools as $escola)
-                        <tr
-                            class="hover:bg-gray-50 cursor-pointer"
-                            onclick="showSchoolDetails({{ json_encode($escola) }})"
-                        >
+                        <tr class="hover:bg-gray-50 cursor-pointer" onclick="showSchoolDetails({{ json_encode($escola) }})">
                             <td class="px-2 py-2 sm:px-4 sm:py-3 text-sm text-gray-700">
                                 <div class="flex justify-center items-center gap-1">
                                     @if($escola->has_bonus)
                                         <div class="flex items-center text-green-600">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                             </svg>
                                         </div>
                                     @else
                                         <div class="flex items-center text-red-600">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                             </svg>
                                         </div>
                                     @endif
@@ -118,16 +115,16 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div id="schoolModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto ">
+<!-- Modal Corrigido -->
+<div id="schoolModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto" onclick="closeModal()">
     <div class="relative min-h-screen flex items-center justify-center p-2">
-        <div class="bg-white rounded-lg shadow-xl w-full mx-2 max-w-3xl">
+        <div class="bg-white rounded-lg shadow-xl w-full mx-2 max-w-3xl" onclick="event.stopPropagation()">
             <div class="p-4">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="text-base font-bold text-gray-800" id="modalSchoolName"></h3>
                     <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
@@ -181,62 +178,26 @@
         setModalText('modalLocation', school.localizacao);
         setModalText('modalModality', school.etapas_modalidade_ensino_oferecidas);
 
-        // Configuração especial para Área Abrangência
-        const AreaAbrangenciaElement = document.getElementById('modalAreaAbrangencia');
-        AreaAbrangenciaElement.textContent = school.is_area_abrangencia ? "Sim" : "Não";
+        // Área de Abrangência
+        const areaElement = document.getElementById('modalAreaAbrangencia');
+        areaElement.textContent = school.is_area_abrangencia ? "Sim" : "Não";
+        areaElement.className = school.is_area_abrangencia ? 'text-green-600 font-bold' : 'text-red-600 font-bold';
 
-        // Resetar classes
-        AreaAbrangenciaElement.className = '';
+        // Ensino Médio
+        const ensinoElement = document.getElementById('modalEnsinoMedio');
+        ensinoElement.textContent = school.is_ensino_medio ? "Sim" : "Não";
+        ensinoElement.className = school.is_ensino_medio ? 'text-green-600 font-bold' : 'text-red-600 font-bold';
 
-        // Aplicar classes condicionais
-        if(school.is_area_abrangencia) {
-            AreaAbrangenciaElement.classList.add('text-green-600', 'font-bold');
-        } else {
-            AreaAbrangenciaElement.classList.add('text-red-600', 'font-bold');
-        }
-
-        // Configuração especial para Ensino Médio
-        const EnsinoMedioElement = document.getElementById('modalEnsinoMedio');
-        EnsinoMedioElement.textContent = school.is_ensino_medio ? "Sim" : "Não";
-
-        // Resetar classes
-        EnsinoMedioElement.className = '';
-
-        // Aplicar classes condicionais
-        if(school.is_ensino_medio) {
-            EnsinoMedioElement.classList.add('text-green-600', 'font-bold');
-        } else {
-            EnsinoMedioElement.classList.add('text-red-600', 'font-bold');
-        }
-
-
-        // Configuração especial para Bonificação
+        // Bonificação
         const bonusElement = document.getElementById('modalBonus');
         bonusElement.textContent = school.has_bonus ? "Elegível" : "Não Elegível";
-
-        // Resetar classes
-        bonusElement.className = '';
-
-        // Aplicar classes condicionais
-        if(school.has_bonus) {
-            bonusElement.classList.add('text-green-600', 'font-bold');
-        } else {
-            bonusElement.classList.add('text-red-600', 'font-bold');
-        }
+        bonusElement.className = school.has_bonus ? 'text-green-600 font-bold' : 'text-red-600 font-bold';
 
         document.getElementById('schoolModal').classList.remove('hidden');
     }
 
-    // Restante do código permanece igual
     function closeModal() {
         document.getElementById('schoolModal').classList.add('hidden');
-    }
-
-    window.onclick = function(event) {
-        const modal = document.getElementById('schoolModal');
-        if (event.target === modal) {
-            closeModal();
-        }
     }
 </script>
 </body>
